@@ -8,6 +8,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from '../firebase.config';
 import { useStateValue } from '../context/StateProvider';
 import { actionType } from '../context/reducer';
+import { stringify } from 'postcss';
 
 const Header = () => {
 
@@ -21,7 +22,8 @@ const Header = () => {
         dispatch({
             type: actionType.SET_USER,
             user: providerData[0]
-        })
+        });
+        localStorage.setItem('user', JSON.stringify(providerData[0]))
     }
 
 
