@@ -1,18 +1,32 @@
 import React from 'react';
 import Logo from '../img/logo.png';
 import Avatar from '../img/avatar.png';
+import { motion } from 'framer-motion';
 import { MdShoppingBasket } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { app } from '../firebase.config';
 
 const Header = () => {
+
+    const firebaseAuth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    
+    const login = async () => {
+        const response = await signInWithPopup(firebaseAuth, provider);
+        console.log(response); 
+    }
+
+
     return (
         // Header
         <header className=" z-50 w-screen p-6 px-16">
             {/* desktop & tablet */}
             <div className="hidden md:flex w-full h-full items-center justify-between">
-                <div className='flex items-center gap-2'>
+                <Link to={"/"} className='flex items-center gap-2'>
                     <img src={Logo} alt="logo" className='w-8 object-cover' />
                     <p className="text-headingColor text-xl font-bold">FoodValley</p>
-                </div>
+                </Link>
 
 
                 <div className='flex items-center gap-8'>
@@ -34,9 +48,9 @@ const Header = () => {
                     </div>
 
 
-                    {/* user avatar */}
-                    <div>
-                        <img src={Avatar} className='w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl' alt="user profile" />
+                    {/* user profile */}
+                    <div className='relative'>
+                        <motion.img whileTap={{ scale: 0.6 }} src={Avatar} className='w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer' alt="user profile" onClick={login}/>
                     </div>
                 </div>
             </div>
