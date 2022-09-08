@@ -57,7 +57,7 @@ const Header = () => {
 
                     {/* user profile */}
                     <div className='relative'>
-                        <motion.img whileTap={{ scale: 0.6 }} src={Avatar} className='w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer' alt="user profile" onClick={login}/>
+                        <motion.img whileTap={{ scale: 0.6 }} src={user ? user.photoURL : Avatar} className='w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full' alt="user profile" onClick={login}/>
                     </div>
                 </div>
             </div>
