@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Logo from '../img/logo.png';
 import Avatar from '../img/avatar.png';
 import { motion } from 'framer-motion';
-import { MdShoppingBasket } from 'react-icons/md';
+import { MdAdd, MdLogout, MdShoppingBasket } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from '../firebase.config';
 import { useStateValue } from '../context/StateProvider';
 import { actionType } from '../context/reducer';
-import { stringify } from 'postcss';
+// import { stringify } from 'postcss';
 
 const Header = () => {
 
@@ -16,6 +16,8 @@ const Header = () => {
     const provider = new GoogleAuthProvider();
 
     const [{ user }, dispatch] = useStateValue();
+
+    const [isMenu, setIsMenu] = useState(false);
 
     const login = async () => {
         if (!user) {
@@ -63,9 +65,20 @@ const Header = () => {
                     <div className='relative'>
                         <motion.img whileTap={{ scale: 0.6 }} src={user ? user.photoURL : Avatar} className='w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full' alt="user profile" onClick={login} />
 
-                        <div className="w-40 bg-primary shadow-xl rounded-lg flex flex-col absolute"> 
-                            <p>New Item</p>
-                        </div>
+                        {
+                            isMenu && (
+                                <div className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute top-12 right-0">
+                                    {
+                                        user && user.email === 'nazmus.sakibbb1@gmail.com' && (
+                                            <Link to={"/createItem"}>
+                                                <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base'>New Item <MdAdd /></p>
+                                            </Link>
+                                        )
+                                    }
+                                    <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base'>Logout <MdLogout /></p>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>
